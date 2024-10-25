@@ -20,7 +20,6 @@ import model.User;
 public class HistoryMatchFrame extends javax.swing.JFrame implements PacketListener {
 
     private User user;
-    private ArrayList<User> listUser;
     private ArrayList<Match> listMatch;
     private ClientControl clientCtr;
     
@@ -31,10 +30,9 @@ public class HistoryMatchFrame extends javax.swing.JFrame implements PacketListe
         initComponents();
     }
 
-    public HistoryMatchFrame(User user, ArrayList<User> listUser, ClientControl clientCtr) {
+    public HistoryMatchFrame(User user, ClientControl clientCtr) {
         initComponents();
         this.user = user;
-//        this.listUser = listUser;
         this.clientCtr = clientCtr;
         this.clientCtr.addPacketListener(this);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

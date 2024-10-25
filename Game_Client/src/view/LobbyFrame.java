@@ -310,7 +310,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
     
     
     public void viewHistory(User user) {
-        HistoryMatchFrame frameHistoryMatch = new HistoryMatchFrame(user, listUser, clientCtr);
+        HistoryMatchFrame frameHistoryMatch = new HistoryMatchFrame(user, clientCtr);
         frameHistoryMatch.setVisible(true);
         
     }
