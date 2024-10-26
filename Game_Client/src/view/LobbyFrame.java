@@ -398,6 +398,11 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                 ArrayList<User> user_update = (ArrayList<User>) packet.getContent();
                 User user_1 = user_update.get(0);
                 User user_2 = user_update.get(1);
+                if (this.user.getId() == user_1.getId()) {
+                    this.user = user_1;
+                } else if (this.user.getId() == user_2.getId()) {
+                    this.user = user_2;
+                }
                 for (User user: listUser) {
                     if (user.getId() == user_1.getId()) {
                         user.setStatus(1);
