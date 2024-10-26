@@ -132,6 +132,7 @@ public class ServerControl {
             System.out.println("Lỗi: " + e.getMessage());
             if (user != null) {
                 System.out.println("Nguời chơi ID = " + user.getId() + " vừa ngắt kết nối đột ngột!");
+                user = getUserById(user.getId());
                 user.setStatus(0);
                 updateUser(user);
                 onlineUsers.remove(user.getId());
@@ -752,7 +753,6 @@ public class ServerControl {
     }
     
     private boolean createUser(User user) throws SQLException {
-        String avatarLink = "img";
         int scoreRank = 0;
         int status = 0;
 
@@ -762,7 +762,7 @@ public class ServerControl {
             ps.setString(1, user.getUserName());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getName());
-            ps.setString(4, avatarLink);
+            ps.setString(4, user.getAvatarLink());
             ps.setInt(5, scoreRank);
             ps.setInt(6, status);
 
