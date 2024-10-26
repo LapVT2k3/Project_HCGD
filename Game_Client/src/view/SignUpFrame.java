@@ -259,6 +259,7 @@ public class SignUpFrame extends javax.swing.JFrame implements PacketListener{
         user.setUserName(username);
         user.setPassword(password);
         user.setName(fullname);
+        user.setAvatarLink("/img/name1.png");
         clientCtr = new ClientControl();
         clientCtr.addPacketListener(this);
         clientCtr.openConnection();
