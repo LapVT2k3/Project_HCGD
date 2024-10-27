@@ -34,7 +34,7 @@ public class ServerControl {
     private HashMap<Integer, ObjectOutputStream> onlineUsers = new HashMap<>();
 
     public ServerControl() {
-        getDBConnection("dblogin", "root", "123456");
+        getDBConnection("gameltm", "root", "123456");
         openServer(serverPort);
         System.out.println("Server is running!");
         while (true) {
@@ -161,7 +161,6 @@ public class ServerControl {
                 oos1.writeObject(new Packet("another_login", completeUser.getId()));
             }
             onlineUsers.put(completeUser.getId(), oos);
-            
         } else {
             oos.writeObject(new Packet("login_false", null));
         }
@@ -240,7 +239,7 @@ public class ServerControl {
     }
     
     // Hàm cập nhật trạng thái người chơi trong trận đấu
-    private void updateMatchingStatus(int userid, int matchid) throws SQLException {
+    private synchronized void updateMatchingStatus(int userid, int matchid) throws SQLException {
         String query = "UPDATE matching SET "
                 + "status1 = CASE WHEN user1_id = " + userid + " THEN 1 ELSE status1 END, "
                 + "status2 = CASE WHEN user2_id = " + userid + " THEN 1 ELSE status2 END "
@@ -279,6 +278,7 @@ public class ServerControl {
     
     // Hàm gửi câu hỏi đến hai người chơi
     private void sendQuestionToUsers(int user1_id, int user2_id, Question q, int answer, int matchid) throws SQLException, IOException {
+        System.out.println(q.toString());
         if (findUser(user1_id) != null && findUser(user2_id) != null) {
             String query = "UPDATE matching SET "
                     + "status1 = 0, "
@@ -307,6 +307,7 @@ public class ServerControl {
             if (list.get(1) instanceof Matching) {
                 matchid = ((Matching) list.get(1)).getId();
             }
+            System.out.println("Matching id: " + matchid);
             try {
                 // Cập nhật trạng thái của người chơi
                 updateMatchingStatus(userid, matchid);
@@ -347,7 +348,7 @@ public class ServerControl {
     }
     
     // Hàm cập nhật trạng thái và câu trả lời của người chơi
-    private void updateAnswerStatus(int userid, int matchid, String answer) throws SQLException {
+    private synchronized void updateAnswerStatus(int userid, int matchid, String answer) throws SQLException {
         String query = "UPDATE matching SET "
                 + "status1 = CASE WHEN user1_id = " + userid + " THEN 1 ELSE status1 END, "
                 + "status2 = CASE WHEN user2_id = " + userid + " THEN 1 ELSE status2 END, "
@@ -403,7 +404,7 @@ public class ServerControl {
     }
     
     // Hàm chuẩn bị và gửi câu hỏi tiếp theo nếu trận đấu chưa kết thúc
-    private void prepareNextQuestion(int matchid, int user1_id, int user2_id, int statusMatch) throws SQLException, IOException {
+    private synchronized void prepareNextQuestion(int matchid, int user1_id, int user2_id, int statusMatch) throws SQLException, IOException {
         if (statusMatch == 5) {
             updateMatchScores(matchid);
             updateUserScoreAndState(matchid);
@@ -413,10 +414,8 @@ public class ServerControl {
             ArrayList<User> user_update = new ArrayList<>();
             user_update.add(user1);
             user_update.add(user2);
-
             findUser(user1_id).writeObject(new Packet("Endgame", user_update));
             findUser(user2_id).writeObject(new Packet("Endgame", user_update));
-            
             ArrayList<User> user_end = new ArrayList<>();
             user_end.add(user1);
             user_end.add(user2);
