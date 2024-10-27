@@ -51,7 +51,7 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
 
         setDefault();
 
-        question.setVisible(false);
+//        question.setVisible(false);
 
         ArrayList<Object> list = new ArrayList<>();
 
@@ -305,9 +305,10 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
         if (null != packet.getHeader()) {
             switch (packet.getHeader()) {
                 case "Question" -> {
+                    System.out.println("Có câu hỏi mới");
                     Question q = (Question) packet.getContent();
                     System.out.println(q.toString());
-                    System.out.println("Câu hỏi");
+                    question.setIcon(new ImageIcon(getClass().getResource(q.getLinking())));
                     answer1.setText("");
                     answer2.setText("");
                     startCountdown();
@@ -344,8 +345,9 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
                     break;
                 }
                 case "Endgame" -> {
-                   this.dispose();
-                   break;
+                    this.clientCtr.removePacketListener(this);
+                    this.dispose();
+                    break;
                 }
                 default -> {
 

@@ -2,8 +2,10 @@ package view;
 
 import controller.ClientControl;
 import controller.PacketListener;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,7 +45,13 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
         this.user = user;
         this.lbName.setText(user.getName());
         this.lbRank.setText("Rank: " + user.getScoreRank());
-        this.lbAvatar.setIcon(new ImageIcon(getClass().getResource(user.getAvatarLink())));
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource(user.getAvatarLink()));
+        Image originalImage = originalIcon.getImage();
+
+        Image resizedImage = originalImage.getScaledInstance(lbAvatar.getWidth(), lbAvatar.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+
+        this.lbAvatar.setIcon(resizedIcon);
         this.statusTable = 0;
         updateListUser();
         tblStatusRank.addMouseListener(new MouseAdapter() {
@@ -461,6 +469,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                 break;
             case "start_game":
                 Matching matching = (Matching) packet.getContent();
+                System.out.println("Matching: " + matching.getId());
                 // Cập nhật lại status
                 if (this.user.getId() == matching.getUser1().getId()) {
                     this.user.setStatus(matching.getUser1().getStatus());
@@ -488,6 +497,8 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                 this.user = user;
                 this.lbName.setText(user.getName());
                 this.lbRank.setText("Rank: " + user.getScoreRank());
+                ImageIcon avatarIcon1 = new ImageIcon(getClass().getResource(user.getAvatarLink()));
+                this.lbAvatar.setIcon(new ImageIcon(avatarIcon1.getImage().getScaledInstance(lbAvatar.getWidth(), lbAvatar.getHeight(), java.awt.Image.SCALE_SMOOTH)));
                 break;
             case "logout_ok":
                 this.setVisible(false);

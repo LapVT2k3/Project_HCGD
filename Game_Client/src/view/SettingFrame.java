@@ -2,8 +2,22 @@ package view;
 
 import controller.ClientControl;
 import controller.PacketListener;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import model.Packet;
 import model.User;
 
@@ -16,6 +30,7 @@ public class SettingFrame extends javax.swing.JFrame implements PacketListener{
     private User user;
     private ClientControl clientCtr;
     private int selectLogout;
+    private String selectedAvatarPath = null;
     
     /**
      * Creates new form SettingFrame
@@ -29,8 +44,9 @@ public class SettingFrame extends javax.swing.JFrame implements PacketListener{
         this.user = user;
         this.clientCtr = clienCtr;
         this.clientCtr.addPacketListener(this);
+        ImageIcon avatarIcon = new ImageIcon(getClass().getResource(user.getAvatarLink()));
+        lbAvatar.setIcon(new ImageIcon(avatarIcon.getImage().getScaledInstance(lbAvatar.getWidth(), lbAvatar.getHeight(), java.awt.Image.SCALE_SMOOTH)));
         txtName.setText(user.getName());
-        lbAvatar.setText(user.getAvatarLink());
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
@@ -198,6 +214,11 @@ public class SettingFrame extends javax.swing.JFrame implements PacketListener{
         btnSelectAvatar.setBackground(new java.awt.Color(0, 102, 102));
         btnSelectAvatar.setForeground(new java.awt.Color(255, 255, 255));
         btnSelectAvatar.setText("Chọn Avatar");
+        btnSelectAvatar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectAvatarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout changeInfoPanelLayout = new javax.swing.GroupLayout(changeInfoPanel);
         changeInfoPanel.setLayout(changeInfoPanelLayout);
@@ -210,20 +231,19 @@ public class SettingFrame extends javax.swing.JFrame implements PacketListener{
                         .addGroup(changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(changeInfoPanelLayout.createSequentialGroup()
-                                .addComponent(btnConfirmChangeInfo)
-                                .addGap(74, 74, 74)
+                                .addGap(202, 202, 202)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, changeInfoPanelLayout.createSequentialGroup()
-                                    .addComponent(lbAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnSelectAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(changeInfoPanelLayout.createSequentialGroup()
+                                .addComponent(lbAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSelectAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnConfirmChangeInfo)))
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         changeInfoPanelLayout.setVerticalGroup(
             changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,20 +252,18 @@ public class SettingFrame extends javax.swing.JFrame implements PacketListener{
                 .addComponent(jLabel9)
                 .addGap(26, 26, 26)
                 .addGroup(changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(changeInfoPanelLayout.createSequentialGroup()
-                        .addGroup(changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbAvatar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnSelectAvatar)))
-                        .addGap(18, 18, 18)
-                        .addGroup(changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSelectAvatar)))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(changeInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnConfirmChangeInfo)
-                .addGap(64, 64, 64))
+                .addGap(52, 52, 52))
         );
 
         jTabbedPane1.addTab("Info", changeInfoPanel);
@@ -373,7 +391,7 @@ public class SettingFrame extends javax.swing.JFrame implements PacketListener{
                             .addComponent(btnConfirmExit, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(37, 37, 37)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(98, Short.MAX_VALUE))
         );
         logoutPanelLayout.setVerticalGroup(
             logoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -420,7 +438,10 @@ public class SettingFrame extends javax.swing.JFrame implements PacketListener{
                     "Cảnh báo",
                     JOptionPane.WARNING_MESSAGE);
         } else {
-            user.setAvatarLink(lbAvatar.getText());
+            if (selectedAvatarPath != null) {
+                File selectedFile = new File(selectedAvatarPath);
+                user.setAvatarLink("/img/avatar/" + selectedFile.getName());
+            }
             user.setName(txtName.getText());
             clientCtr.sendData(new Packet("update_user", user));
         }
@@ -469,6 +490,52 @@ public class SettingFrame extends javax.swing.JFrame implements PacketListener{
         }
     }//GEN-LAST:event_btnConfirmChangePassActionPerformed
 
+    private void btnSelectAvatarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectAvatarActionPerformed
+        // TODO add your handling code here:
+        openAvatarSelectionDialog();
+    }//GEN-LAST:event_btnSelectAvatarActionPerformed
+    
+    private void openAvatarSelectionDialog() {
+        JDialog dialog = new JDialog(this, "Danh sách Avatar", true);
+        dialog.setSize(400, 300);
+        dialog.setLocationRelativeTo(this);
+
+        JPanel panel = new JPanel(new GridLayout(0, 3, 10, 10)); // Hiển thị ảnh theo dạng lưới
+        String avatarDirectory = "src/img/avatar"; // Thư mục chứa các avatar
+
+        File dir = new File(avatarDirectory);
+        if (dir.isDirectory()) {
+            File[] avatarFiles = dir.listFiles();
+            if (avatarFiles != null) {
+                for (File avatarFile : avatarFiles) {
+                    if (avatarFile.isFile()) {
+                        ImageIcon icon = new ImageIcon(avatarFile.getAbsolutePath());
+                        Image image = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+                        JButton avatarButton = new JButton(new ImageIcon(image));
+
+                        avatarButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                selectedAvatarPath = avatarFile.getAbsolutePath();
+                                ImageIcon icon = new ImageIcon(selectedAvatarPath);
+                                Image scaledImage = icon.getImage().getScaledInstance(lbAvatar.getWidth(), lbAvatar.getHeight(), Image.SCALE_SMOOTH);
+                                lbAvatar.setIcon(new ImageIcon(scaledImage));
+                                dialog.dispose();
+                            }
+                        });
+
+                        panel.add(avatarButton);
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Thư mục avatar không tồn tại!");
+        }
+
+        dialog.getContentPane().add(new JScrollPane(panel)); // Thêm thanh cuộn
+        dialog.setVisible(true);
+    }
+    
     /**
      * @param args the command line arguments
      */
