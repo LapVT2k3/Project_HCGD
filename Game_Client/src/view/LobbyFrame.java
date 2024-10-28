@@ -461,6 +461,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                             user.setScoreRank(user_2.getScoreRank());
                         }
                     }
+                    this.lbRank.setText("Score: " + user.getScoreRank());
                     updateTable(statusTable);
                     this.setVisible(true);
                     break;
@@ -538,7 +539,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                     User user = (User) packet.getContent();
                     this.user = user;
                     this.lbName.setText(user.getName());
-                    this.lbRank.setText("Rank: " + user.getScoreRank());
+                    this.lbRank.setText("Score: " + user.getScoreRank());
                     ImageIcon avatarIcon1 = new ImageIcon(getClass().getResource(user.getAvatarLink()));
                     this.lbAvatar.setIcon(new ImageIcon(avatarIcon1.getImage().getScaledInstance(lbAvatar.getWidth(), lbAvatar.getHeight(), java.awt.Image.SCALE_SMOOTH)));
                     break;
