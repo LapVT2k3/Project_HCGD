@@ -34,7 +34,7 @@ public class ServerControl {
     private HashMap<Integer, ObjectOutputStream> onlineUsers = new HashMap<>();
 
     public ServerControl() {
-        getDBConnection("gameltm", "root", "123456");
+           getDBConnection();
         openServer(serverPort);
         System.out.println("Server is running!");
         while (true) {
@@ -42,15 +42,13 @@ public class ServerControl {
         }
     }
     
-    private void getDBConnection(String dbName, 
-            String username, String password) {
-        String dbUrl = "jdbc:mysql://localhost:3306/" + dbName;
+   private void getDBConnection() {
+        String dbUrl = "jdbc:mysql://localhost:3306/gameltm";
         String dbClass = "com.mysql.cj.jdbc.Driver";
-        
+
         try {
             Class.forName(dbClass);
-            con = (Connection) DriverManager.getConnection(dbUrl, username, password);
-            System.out.println("Connect successfully!");
+            con = DriverManager.getConnection(dbUrl, "root", "123456");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -321,6 +319,7 @@ public class ServerControl {
                     int status2 = rs2.getInt("status2");
 
                     if (status1 == 1 && status2 == 1) {
+                        Thread.sleep(5000);
                         System.out.println("Cả status1 và status2 đều là 1.");
                         ArrayList<Integer> user_start = new ArrayList<>();
                         user_start.add(user1_id);
@@ -363,8 +362,8 @@ public class ServerControl {
     private void compareAnswers(int user1_id, int user2_id, int answer1, int answer2, int answerQuestionNow, int matchid) throws SQLException, IOException {
         if (Math.abs(answerQuestionNow - answer1) > Math.abs(answerQuestionNow - answer2)) {
             // Người chơi 2 thắng
-            findUser(user1_id).writeObject(new Packet("Lose", "Rất tiếc, đối thủ đã dự đoán chính xác hơn!"));
-            findUser(user2_id).writeObject(new Packet("Win", "Tuyệt vời, bạn đã dự đoán chính xác hơn và nhận được 1 điểm thưởng!"));
+            findUser(user1_id).writeObject(new Packet("Lose", answerQuestionNow+""));
+            findUser(user2_id).writeObject(new Packet("Win", answerQuestionNow+""));
 
             // Cập nhật điểm của người chơi 2
             String query = "UPDATE matching SET scoreUser2 = scoreUser2 + 1 WHERE id = " + matchid;
@@ -373,8 +372,8 @@ public class ServerControl {
 
         } else if (Math.abs(answerQuestionNow - answer1) < Math.abs(answerQuestionNow - answer2)) {
             // Người chơi 1 thắng
-            findUser(user2_id).writeObject(new Packet("Lose", "Rất tiếc, đối thủ đã dự đoán chính xác hơn!"));
-            findUser(user1_id).writeObject(new Packet("Win", "Tuyệt vời, bạn đã dự đoán chính xác hơn và nhận được 1 điểm thưởng!"));
+            findUser(user2_id).writeObject(new Packet("Lose", answerQuestionNow+""));
+            findUser(user1_id).writeObject(new Packet("Win", answerQuestionNow+""));
 
             // Cập nhật điểm của người chơi 1
             String query = "UPDATE matching SET scoreUser1 = scoreUser1 + 1 WHERE id = " + matchid;
@@ -383,8 +382,8 @@ public class ServerControl {
 
         } else {
             // Hai người chơi hòa
-            findUser(user1_id).writeObject(new Packet("Draw", "Thật cân tài cân sức, cả 2 đem về nửa điểm thưởng!"));
-            findUser(user2_id).writeObject(new Packet("Draw", "Thật cân tài cân sức, cả 2 đem về nửa điểm thưởng!"));
+            findUser(user1_id).writeObject(new Packet("Draw", answerQuestionNow+""));
+            findUser(user2_id).writeObject(new Packet("Draw", answerQuestionNow+""));
 
             // Cập nhật điểm cho cả hai người chơi
             String query = "UPDATE matching SET scoreUser1 = scoreUser1 + 0.5, scoreUser2 = scoreUser2 + 0.5 WHERE id = " + matchid;
@@ -490,6 +489,8 @@ public class ServerControl {
                     // So sánh câu trả lời nếu cả hai đều đã trả lời
                     if (status1 == 1 && status2 == 1) {
                         compareAnswers(user1_id, user2_id, answer1, answer2, answerQuestionNow, matchid);
+                        
+                       Thread.sleep(5000);
 
                         // Chuẩn bị câu hỏi tiếp theo
                         prepareNextQuestion(matchid, user1_id, user2_id, statusMatch);
@@ -699,8 +700,8 @@ public class ServerControl {
             ResultSet rs = selectStmt.executeQuery();
 
             if (rs.next()) {
-                float scoreUser1 = rs.getInt("scoreUser1");
-                float scoreUser2 = rs.getInt("scoreUser2");
+                float scoreUser1 = rs.getFloat("scoreUser1");
+                float scoreUser2 = rs.getFloat("scoreUser2");
 
                 PreparedStatement updateStmt = con.prepareStatement(updateQuery);
                 updateStmt.setFloat(1, scoreUser1);
