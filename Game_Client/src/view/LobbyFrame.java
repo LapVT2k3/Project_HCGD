@@ -126,7 +126,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                 btnSettingActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSetting, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 0, -1, -1));
+        getContentPane().add(btnSetting, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 0, -1, -1));
 
         tblStatusRank.setBackground(new java.awt.Color(204, 255, 255));
         tblStatusRank.setFont(new java.awt.Font("SVN-Comic Sans MS", 0, 24)); // NOI18N
