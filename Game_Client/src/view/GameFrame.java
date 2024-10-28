@@ -12,12 +12,18 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import controller.ClientControl;
 import controller.PacketListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.ActionListener;
 import model.Match;
 import model.Matching;
 import model.Packet;
 import model.Question;
 import model.User;
-
 
 public class GameFrame extends javax.swing.JFrame implements PacketListener {
 
@@ -30,7 +36,7 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
     public GameFrame() {
         initComponents();
     }
-    
+
     public GameFrame(ClientControl clientCtr, Matching matching, User user) {
         initComponents();
         this.clientCtr = clientCtr;
@@ -44,15 +50,14 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
         } else if (user.getId() == matching.getUser2().getId()) {
             this.user2 = matching.getUser1();
         }
-            
+
         System.out.println(user2);
-        
+
         this.matching = matching;
 
         setDefault();
 
 //        question.setVisible(false);
-
         ArrayList<Object> list = new ArrayList<>();
 
         list.add(user1);
@@ -70,6 +75,9 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
         score2.setText("0");
         answer1.setText("0000");
         answer2.setText("0000");
+        wl1.setVisible(false);
+         answer.setText("");
+        wl2.setVisible(false);
         avartar1.setIcon(new ImageIcon(getClass().getResource(user1.getAvatarLink())));
         avartar2.setIcon(new ImageIcon(getClass().getResource(user2.getAvatarLink())));
         answer1.setEditable(false);
@@ -125,9 +133,14 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
         jLabel16 = new javax.swing.JLabel();
         score1 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        wl1 = new javax.swing.JLabel();
         btSend = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         question = new javax.swing.JLabel();
+        wl2 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        answer = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -146,13 +159,13 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
         txtTime.setFont(new java.awt.Font("SVN-Batman Forever Alternate", 0, 56)); // NOI18N
         txtTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtTime.setText("15");
-        getContentPane().add(txtTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(965, 73, -1, -1));
+        getContentPane().add(txtTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 50, 90, 100));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/khung.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(888, 10, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(647, 0, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nền.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(892, 24, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 12, -1, -1));
 
         avartar2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         avartar2.setText("1");
@@ -215,7 +228,7 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
         score2.setFont(new java.awt.Font("SVN-Batman Forever Alternate", 1, 36)); // NOI18N
         score2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         score2.setText("55");
-        getContentPane().add(score2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1380, 175, 70, 60));
+        getContentPane().add(score2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1370, 175, 90, 60));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/score.png"))); // NOI18N
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 100, 190, -1));
@@ -229,10 +242,19 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
         score1.setFont(new java.awt.Font("SVN-Batman Forever Alternate", 1, 36)); // NOI18N
         score1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         score1.setText("55");
-        getContentPane().add(score1, new org.netbeans.lib.awtextra.AbsoluteConstraints(68, 175, 80, 60));
+        getContentPane().add(score1, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 175, 90, 60));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/score.png"))); // NOI18N
         getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 190, -1));
+
+        wl1.setBackground(new java.awt.Color(255, 255, 255));
+        wl1.setFont(new java.awt.Font("SVN-Good Dog", 1, 55)); // NOI18N
+        wl1.setForeground(new java.awt.Color(255, 51, 102));
+        wl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        wl1.setText("WIN");
+        wl1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        wl1.setOpaque(true);
+        getContentPane().add(wl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(301, 130, 130, -1));
 
         btSend.setFont(new java.awt.Font("SVN-Nexa Rush Slab Black Shadow", 1, 48)); // NOI18N
         btSend.setForeground(new java.awt.Color(255, 255, 255));
@@ -251,6 +273,30 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
         question.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         question.setText("Question");
         getContentPane().add(question, new org.netbeans.lib.awtextra.AbsoluteConstraints(553, 186, 400, 380));
+
+        wl2.setBackground(new java.awt.Color(255, 255, 255));
+        wl2.setFont(new java.awt.Font("SVN-Good Dog", 1, 55)); // NOI18N
+        wl2.setForeground(new java.awt.Color(255, 51, 102));
+        wl2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        wl2.setText("WIN");
+        wl2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        wl2.setOpaque(true);
+        getContentPane().add(wl2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 140, 130, -1));
+
+        jLabel10.setFont(new java.awt.Font("SVN-Good Dog", 1, 36)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel10.setText("Answer:");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 590, -1, 30));
+
+        answer.setFont(new java.awt.Font("SVN-Batman Forever Alternate", 0, 36)); // NOI18N
+        answer.setForeground(new java.awt.Color(153, 0, 153));
+        answer.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        answer.setText("2222");
+        getContentPane().add(answer, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 590, 170, 60));
+
+        jLabel5.setBorder(javax.swing.BorderFactory.createMatteBorder(4, 4, 4, 4, new java.awt.Color(102, 255, 255)));
+        jLabel5.setOpaque(true);
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 580, 300, 80));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/background.jpeg"))); // NOI18N
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1500, 840));
@@ -272,12 +318,14 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel answer;
     private javax.swing.JTextField answer1;
     private javax.swing.JLabel answer2;
     public javax.swing.JLabel avartar1;
     private javax.swing.JLabel avartar2;
     private javax.swing.JLabel btSend;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -288,6 +336,7 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -298,7 +347,66 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
     private javax.swing.JLabel score1;
     private javax.swing.JLabel score2;
     private javax.swing.JLabel txtTime;
+    private javax.swing.JLabel wl1;
+    private javax.swing.JLabel wl2;
     // End of variables declaration//GEN-END:variables
+public static void showCustomDialog(String title, String message, Color bgColor) {
+        // Tạo JFrame chính
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Tạo JPanel làm nền
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(bgColor); // Đặt màu nền
+
+        // Tạo JLabel cho thông báo
+        JLabel messageLabel = new JLabel(message, SwingConstants.CENTER);
+        messageLabel.setForeground(Color.BLUE); // Đặt màu chữ
+        messageLabel.setFont(new Font("Arial", Font.BOLD, 14));
+
+        // Tạo nút "OK" để đóng dialog
+        JButton okButton = new JButton("OK");
+        okButton.setBackground(Color.LIGHT_GRAY);
+        okButton.setForeground(Color.BLACK);
+        okButton.setFocusPainted(false);
+        okButton.setFont(new Font("Arial", Font.BOLD, 12));
+
+        // Định nghĩa hành động khi bấm nút "OK"
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Window window = SwingUtilities.getWindowAncestor(okButton);
+                window.dispose(); // Đóng dialog
+            }
+        });
+
+        // Thêm các thành phần vào panel
+        panel.add(messageLabel, BorderLayout.CENTER);
+        panel.add(okButton, BorderLayout.SOUTH);
+
+        // Tạo dialog chứa panel
+        JDialog dialog = new JDialog(frame, title, true);
+        dialog.setContentPane(panel);
+        dialog.setSize(250, 150);
+
+        // Lấy kích thước màn hình và căn giữa dialog
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - dialog.getWidth()) / 2;
+        int y = (screenSize.height - dialog.getHeight()) / 2;
+        dialog.setLocation(x, y);
+
+        // Tạo Timer để tự động đóng dialog sau 5 giây
+        Timer timer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose(); // Đóng dialog sau 5 giây
+            }
+        });
+        timer.setRepeats(false); // Chỉ chạy một lần
+        timer.start();
+
+        dialog.setVisible(true); // Hiển thị dialog
+    }
 
     @Override
     public void onPacketReceived(Packet packet) {
@@ -311,6 +419,9 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
                     question.setIcon(new ImageIcon(getClass().getResource(q.getLinking())));
                     answer1.setText("");
                     answer2.setText("");
+                    answer.setText("");
+                    wl1.setVisible(false);
+                    wl2.setVisible(false);
                     startCountdown();
                     answer1.setEditable(true);
                     break;
@@ -325,14 +436,22 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
                     double i = Double.parseDouble(score1.getText());
                     score1.setText(String.valueOf(i + 1));
                     String s = packet.getContent().toString();
-                    System.out.println(s);
+                    answer.setText(s);
+                    wl1.setText("WIN");
+                    wl2.setText("LOSE");
+                    wl1.setVisible(true);
+                    wl2.setVisible(true);
                     break;
                 }
                 case "Lose" -> {
                     double i = Double.parseDouble(score2.getText());
                     score2.setText(String.valueOf(i + 1));
                     String s = packet.getContent().toString();
-                    System.out.println(s);
+                    answer.setText(s);
+                    wl2.setText("WIN");
+                    wl1.setText("LOSE");
+                    wl1.setVisible(true);
+                    wl2.setVisible(true);
                     break;
                 }
                 case "Draw" -> {
@@ -341,13 +460,19 @@ public class GameFrame extends javax.swing.JFrame implements PacketListener {
                     double j = Double.parseDouble(score2.getText());
                     score2.setText(String.valueOf(j + 0.5));
                     String s = packet.getContent().toString();
-                    System.out.println(s);
+                    answer.setText(s);
+                    wl1.setText("DRAW");
+                    wl2.setText("DRAW");
+                    wl1.setVisible(true);
+                    wl2.setVisible(true);
                     break;
                 }
                 case "Endgame" -> {
                     this.clientCtr.removePacketListener(this);
                     this.dispose();
+                    showCustomDialog("Thông báo", "Trận đấu kết thúc!", Color.WHITE);
                     break;
+
                 }
                 default -> {
 

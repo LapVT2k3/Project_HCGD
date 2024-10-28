@@ -152,12 +152,19 @@ public class HistoryMatchFrame extends javax.swing.JFrame implements PacketListe
                 score = match.getScoreUser2();
                 scoreEnemy = match.getScoreUser1();
             }
+            String ans = "";
+            if (score > scoreEnemy)
+                ans = "WIN";
+            else if (score == scoreEnemy)
+                ans = "DRAW";
+            else if (score < scoreEnemy)
+                ans = "LOSE";
             LocalDateTime startTime = match.getTimeStart();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String startTimeString = startTime.format(dtf);
             model.addRow(new Object[]{
                     userEnemy.getName(),
-                    score > scoreEnemy ? "WIN" : "LOSE",
+                    ans,
                     String.format("%.1f - %.1f", score, scoreEnemy),
                     startTimeString
                 });
@@ -193,6 +200,8 @@ public class HistoryMatchFrame extends javax.swing.JFrame implements PacketListe
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(HistoryMatchFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

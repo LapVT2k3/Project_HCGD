@@ -9,6 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -353,6 +355,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
             java.util.logging.Logger.getLogger(LobbyFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -423,6 +426,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                 updateTable(statusTable);
                 this.setVisible(true);
                 break;
+
             case "another_start":
                 ArrayList<Integer> user_start = (ArrayList<Integer>) packet.getContent();
                 int user1_id_s = user_start.get(0);

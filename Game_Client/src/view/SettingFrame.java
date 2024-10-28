@@ -562,6 +562,7 @@ public class SettingFrame extends javax.swing.JFrame implements PacketListener{
             java.util.logging.Logger.getLogger(SettingFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
