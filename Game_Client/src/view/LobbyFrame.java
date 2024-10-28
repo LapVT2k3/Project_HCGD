@@ -2,15 +2,13 @@ package view;
 
 import controller.ClientControl;
 import controller.PacketListener;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -26,20 +24,19 @@ import model.User;
  * @author ADMIN
  */
 public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
-    
+
     private User user;
     private ArrayList<User> listUser;
     private int statusTable;
     private ClientControl clientCtr;
-    
+
     /**
      * Creates new form LobbyFrame
      */
-    
     public LobbyFrame() {
         initComponents();
     }
-    
+
     public LobbyFrame(User user, ClientControl clientCtr) {
         initComponents();
         this.clientCtr = clientCtr;
@@ -92,26 +89,47 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
         tblStatusRank = new javax.swing.JTable();
         btnStatusTable = new javax.swing.JButton();
         btnLeaderBoard = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         jLabel4.setText("jLabel4");
 
         jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        lbAvatar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbAvatar.setText("Avatar");
+        getContentPane().add(lbAvatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(31, 34, 111, 111));
 
+        lbName.setFont(new java.awt.Font("SVN-Comic Sans MS", 1, 36)); // NOI18N
+        lbName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbName.setText("Name");
+        getContentPane().add(lbName, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 180, 40));
 
+        lbRank.setFont(new java.awt.Font("SVN-Comic Sans MS", 1, 24)); // NOI18N
+        lbRank.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbRank.setText("Rank");
+        getContentPane().add(lbRank, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 110, 130, 30));
 
-        btnSetting.setText("Setting");
+        btnSetting.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/gear (2).png"))); // NOI18N
+        btnSetting.setBorder(null);
+        btnSetting.setContentAreaFilled(false);
         btnSetting.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSettingActionPerformed(evt);
             }
         });
+        getContentPane().add(btnSetting, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 0, -1, -1));
 
+        tblStatusRank.setBackground(new java.awt.Color(204, 255, 255));
+        tblStatusRank.setFont(new java.awt.Font("SVN-Comic Sans MS", 0, 24)); // NOI18N
         tblStatusRank.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
@@ -131,73 +149,61 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                 return canEdit [columnIndex];
             }
         });
+        tblStatusRank.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblStatusRank.setGridColor(new java.awt.Color(204, 255, 255));
+        tblStatusRank.setName(""); // NOI18N
+        tblStatusRank.setOpaque(false);
+        tblStatusRank.setRowHeight(35);
         jScrollPane1.setViewportView(tblStatusRank);
         if (tblStatusRank.getColumnModel().getColumnCount() > 0) {
             tblStatusRank.getColumnModel().getColumn(0).setResizable(false);
+            tblStatusRank.getColumnModel().getColumn(0).setHeaderValue("Danh sách người chơi");
         }
+        tblStatusRank.getTableHeader().setFont(new java.awt.Font("SVN-Comic Sans MS", 1, 24));
 
-        btnStatusTable.setText("Danh sách người chơi");
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(765, 210, 410, 400));
+
+        btnStatusTable.setFont(new java.awt.Font("SVN-Good Dog", 0, 29)); // NOI18N
+        btnStatusTable.setForeground(new java.awt.Color(0, 0, 102));
+        btnStatusTable.setText("ListUsers");
+        btnStatusTable.setBorder(null);
+        btnStatusTable.setContentAreaFilled(false);
         btnStatusTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStatusTableActionPerformed(evt);
             }
         });
+        getContentPane().add(btnStatusTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 140, 130, 50));
 
-        btnLeaderBoard.setText("Bảng xếp hạng");
+        btnLeaderBoard.setFont(new java.awt.Font("SVN-Good Dog", 0, 29)); // NOI18N
+        btnLeaderBoard.setForeground(new java.awt.Color(255, 255, 255));
+        btnLeaderBoard.setText("BXH");
+        btnLeaderBoard.setBorder(null);
+        btnLeaderBoard.setContentAreaFilled(false);
         btnLeaderBoard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLeaderBoardActionPerformed(evt);
             }
         });
+        getContentPane().add(btnLeaderBoard, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 140, 130, 50));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(lbAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 131, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnStatusTable)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnLeaderBoard, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnSetting)))
-                        .addGap(17, 17, 17))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbRank, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbAvatar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSetting))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbRank)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnStatusTable)
-                    .addComponent(btnLeaderBoard))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
-        );
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/name..png"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 60, -1, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/score.png"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -10, -1, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/name.png"))); // NOI18N
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, -30, -1, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bt..png"))); // NOI18N
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 130, -1, -1));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bt.png"))); // NOI18N
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 130, -1, -1));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bg lobby.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1199, 674));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -212,14 +218,22 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
         // TODO add your handling code here:
         this.statusTable = 0;
         updateListUser();
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bt..png")));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bt.png")));
+        btnStatusTable.setForeground(new Color(0, 0, 102));
+        btnLeaderBoard.setForeground(Color.white);
     }//GEN-LAST:event_btnStatusTableActionPerformed
 
     private void btnLeaderBoardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeaderBoardActionPerformed
         // TODO add your handling code here:
         this.statusTable = 1;
         updateListUser();
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bt.png")));
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bt..png")));
+        btnStatusTable.setForeground(Color.white);
+        btnLeaderBoard.setForeground(new Color(0, 0, 102));
     }//GEN-LAST:event_btnLeaderBoardActionPerformed
-    
+
     public void showPlayerOptionsDialog(JFrame parent, User selectedUser) {
         Object[] options = {"Mời chơi", "Xem lịch sử đấu", "Hủy"};
         int choice = JOptionPane.showOptionDialog(parent,
@@ -244,7 +258,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                 break;
         }
     }
-    
+
     public void showAcceptDenyOptionsDialog(JFrame parent, ArrayList<User> invitation) {
         Object[] options = {"Đồng ý", "Từ chối"};
         int choice = JOptionPane.showOptionDialog(parent,
@@ -267,7 +281,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                 break;
         }
     }
-    
+
     public void sendResponseInvitation(ArrayList<User> invitation, int option) {
         ArrayList<Object> responseInvitation = new ArrayList<>();
         responseInvitation.add(invitation);
@@ -279,19 +293,20 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
             clientCtr.sendData(new Packet("response_invitation", responseInvitation));
         }
     }
-    
+
     public void updateTable(int statusTable) {
         DefaultTableModel model = (DefaultTableModel) tblStatusRank.getModel();
         model.setRowCount(0);
         if (statusTable == 0) {
             for (User user : this.listUser) {
-                if (user.equals(this.user)) continue;
-                model.addRow(new Object[]{
-                    String.format("%-20s %-12s %-10s", 
-                        user.getName(), 
-                        "Score: " + user.getScoreRank(), 
-                        "Status: " + user.getStatus())
-                });
+                if (user.equals(this.user)) {
+                    continue;
+                }
+                String userInfo = String.format(
+                "<html><table><tr><td width='300'>%s</td><td>Status: %s</td></tr></table></html>",
+                user.getName(), user.getStatus()
+                );
+                model.addRow(new Object[]{userInfo});
             }
         } else if (statusTable == 1) {
             Collections.sort(this.listUser, new Comparator<User>() {
@@ -301,34 +316,50 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
                 }
             });
             for (User user : this.listUser) {
-                model.addRow(new Object[]{
-                    String.format("%-20s %-12s %-10s", 
-                        user.getName() + " " + (user.equals(this.user) ? "(You)" : ""), 
-                        "Score: " + user.getScoreRank(), 
-                        "Status: " + user.getStatus())
-                });
+                String userInfo;
+                if (user.equals(this.user)) {
+                    userInfo = String.format(
+                        "<html><table><tr>" +
+                        "<td width='200'>%s (You)</td>" +
+                        "<td width='120'>Score: %d</td>" +
+                        "<td width='100'>Status: %s</td>" +
+                        "</tr></table></html>",
+                        user.getName(), user.getScoreRank(), user.getStatus()
+                    );
+                } else {
+                    userInfo = String.format(
+                        "<html><table><tr>" +
+                        "<td width='200'>%s</td>" +
+                        "<td width='120'>Score: %d</td>" +
+                        "<td width='100'>Status: %s</td>" +
+                        "</tr></table></html>",
+                        user.getName(), user.getScoreRank(), user.getStatus()
+                    );
+                }
+
+                model.addRow(new Object[]{userInfo});
             }
+
         }
     }
-    
+
     public void sendInvitePlayGame(User invitee) {
         ArrayList<User> invitation = new ArrayList<>();
         invitation.add(this.user);
         invitation.add(invitee);
         clientCtr.sendData(new Packet("send_invitation", invitation));
     }
-    
-    
+
     public void viewHistory(User user) {
         HistoryMatchFrame frameHistoryMatch = new HistoryMatchFrame(user, clientCtr);
         frameHistoryMatch.setVisible(true);
-        
+
     }
-    
+
     public void updateListUser() {
         clientCtr.sendData(new Packet("list", null));
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -364,16 +395,22 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
             }
         });
     }
-    
+
     public void showMessage(String msg) {
         JOptionPane.showMessageDialog(this, msg);
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLeaderBoard;
     private javax.swing.JButton btnSetting;
     private javax.swing.JButton btnStatusTable;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbAvatar;
@@ -384,131 +421,133 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
 
     @Override
     public void onPacketReceived(Packet packet) {
-        if (null != packet.getHeader()) switch (packet.getHeader()) {
-            case "another_login":
-                int userLoginId = (int) packet.getContent();
-                for (User user1: listUser) {
-                    if (user1.getId() == userLoginId) {
-                        user1.setStatus(1);
-                        break;
+        if (null != packet.getHeader()) {
+            switch (packet.getHeader()) {
+                case "another_login":
+                    int userLoginId = (int) packet.getContent();
+                    for (User user1 : listUser) {
+                        if (user1.getId() == userLoginId) {
+                            user1.setStatus(1);
+                            break;
+                        }
                     }
-                }
-                updateTable(statusTable);
-                break;
-            case "another_logout":
-                int userLogoutId = (int) packet.getContent();
-                for (User user: listUser) {
-                    if (user.getId() == userLogoutId) {
-                        user.setStatus(0);
-                        break;
+                    updateTable(statusTable);
+                    break;
+                case "another_logout":
+                    int userLogoutId = (int) packet.getContent();
+                    for (User user : listUser) {
+                        if (user.getId() == userLogoutId) {
+                            user.setStatus(0);
+                            break;
+                        }
                     }
-                }
-                updateTable(statusTable);
-                break;
-            case "Endgame":
-                ArrayList<User> user_update = (ArrayList<User>) packet.getContent();
-                User user_1 = user_update.get(0);
-                User user_2 = user_update.get(1);
-                if (this.user.getId() == user_1.getId()) {
-                    this.user = user_1;
-                } else if (this.user.getId() == user_2.getId()) {
-                    this.user = user_2;
-                }
-                for (User user: listUser) {
-                    if (user.getId() == user_1.getId()) {
-                        user.setStatus(1);
-                        user.setScoreRank(user_1.getScoreRank());
-                    } else if (user.getId() == user_2.getId()) {
-                        user.setStatus(1);
-                        user.setScoreRank(user_2.getScoreRank());
+                    updateTable(statusTable);
+                    break;
+                case "Endgame":
+                    ArrayList<User> user_update = (ArrayList<User>) packet.getContent();
+                    User user_1 = user_update.get(0);
+                    User user_2 = user_update.get(1);
+                    if (this.user.getId() == user_1.getId()) {
+                        this.user = user_1;
+                    } else if (this.user.getId() == user_2.getId()) {
+                        this.user = user_2;
                     }
-                }
-                updateTable(statusTable);
-                this.setVisible(true);
-                break;
+                    for (User user : listUser) {
+                        if (user.getId() == user_1.getId()) {
+                            user.setStatus(1);
+                            user.setScoreRank(user_1.getScoreRank());
+                        } else if (user.getId() == user_2.getId()) {
+                            user.setStatus(1);
+                            user.setScoreRank(user_2.getScoreRank());
+                        }
+                    }
+                    updateTable(statusTable);
+                    this.setVisible(true);
+                    break;
 
-            case "another_start":
-                ArrayList<Integer> user_start = (ArrayList<Integer>) packet.getContent();
-                int user1_id_s = user_start.get(0);
-                int user2_id_s = user_start.get(1);
-                for (User user1: listUser) {
-                    if (user1.getId() == user1_id_s || user1.getId() == user2_id_s) {
-                        user1.setStatus(2);
+                case "another_start":
+                    ArrayList<Integer> user_start = (ArrayList<Integer>) packet.getContent();
+                    int user1_id_s = user_start.get(0);
+                    int user2_id_s = user_start.get(1);
+                    for (User user1 : listUser) {
+                        if (user1.getId() == user1_id_s || user1.getId() == user2_id_s) {
+                            user1.setStatus(2);
+                        }
                     }
-                }
-                updateTable(statusTable);
-                break;
-            case "another_end":
-                ArrayList<User> user_end = (ArrayList<User>) packet.getContent();
-                User user1 = user_end.get(0);
-                User user2 = user_end.get(1);
-                for (User user: listUser) {
-                    if (user.getId() == user1.getId()) {
-                        user.setStatus(1);
-                        user.setScoreRank(user1.getScoreRank());
-                    } else if (user.getId() == user2.getId()) {
-                        user.setStatus(1);
-                        user.setScoreRank(user2.getScoreRank());
+                    updateTable(statusTable);
+                    break;
+                case "another_end":
+                    ArrayList<User> user_end = (ArrayList<User>) packet.getContent();
+                    User user1 = user_end.get(0);
+                    User user2 = user_end.get(1);
+                    for (User user : listUser) {
+                        if (user.getId() == user1.getId()) {
+                            user.setStatus(1);
+                            user.setScoreRank(user1.getScoreRank());
+                        } else if (user.getId() == user2.getId()) {
+                            user.setStatus(1);
+                            user.setScoreRank(user2.getScoreRank());
+                        }
                     }
-                }
-                updateTable(statusTable);
-                break;
-            case "list_ok":
-                ArrayList<User> listUser = (ArrayList<User>) packet.getContent();
-                this.listUser = listUser;
-                updateTable(statusTable);
-                break;
-            case "list_fail":
-                showMessage("Lấy danh sách thất bại!");
-                break;
-            case "invite_sent":
-                showMessage("Đã gửi lời mời thành công!");
-                break;
-            case "offline":
-                showMessage("Người chơi đang offline!");
-                break;
-            case "recieve_invitation":
-                ArrayList<User> invitation = (ArrayList<User>) packet.getContent();
-                showAcceptDenyOptionsDialog(this, invitation);
-                break;
-            case "start_game":
-                Matching matching = (Matching) packet.getContent();
-                System.out.println("Matching: " + matching.getId());
-                // Cập nhật lại status
-                if (this.user.getId() == matching.getUser1().getId()) {
-                    this.user.setStatus(matching.getUser1().getStatus());
-                } else if (this.user.getId() == matching.getUser2().getId()) {
-                    this.user.setStatus(matching.getUser2().getStatus());
-                }
-                
-                GameFrame gameFrame = new GameFrame(clientCtr, matching, user);
-                gameFrame.setVisible(true);
-                this.setVisible(false);
-                break;
-            case "deny_invitation":
-                invitation = (ArrayList<User>) packet.getContent();
-                showMessage("Người chơi " + invitation.get(1).getName() + " từ chối!");
-                break;
-            case "recieve_history":
-                ArrayList<Match> listMatch = (ArrayList<Match>) packet.getContent();
-                HistoryMatchFrame frameHistoryMatch = new HistoryMatchFrame();
-                break;
-            case "inviter_busy":
-                showMessage("Người mời đã bận!");
-                break;
-            case "update_ok":
-                User user = (User) packet.getContent();
-                this.user = user;
-                this.lbName.setText(user.getName());
-                this.lbRank.setText("Rank: " + user.getScoreRank());
-                ImageIcon avatarIcon1 = new ImageIcon(getClass().getResource(user.getAvatarLink()));
-                this.lbAvatar.setIcon(new ImageIcon(avatarIcon1.getImage().getScaledInstance(lbAvatar.getWidth(), lbAvatar.getHeight(), java.awt.Image.SCALE_SMOOTH)));
-                break;
-            case "logout_ok":
-                this.setVisible(false);
-                break; 
-            default:
-                break;
+                    updateTable(statusTable);
+                    break;
+                case "list_ok":
+                    ArrayList<User> listUser = (ArrayList<User>) packet.getContent();
+                    this.listUser = listUser;
+                    updateTable(statusTable);
+                    break;
+                case "list_fail":
+                    showMessage("Lấy danh sách thất bại!");
+                    break;
+                case "invite_sent":
+                    showMessage("Đã gửi lời mời thành công!");
+                    break;
+                case "offline":
+                    showMessage("Người chơi đang offline!");
+                    break;
+                case "recieve_invitation":
+                    ArrayList<User> invitation = (ArrayList<User>) packet.getContent();
+                    showAcceptDenyOptionsDialog(this, invitation);
+                    break;
+                case "start_game":
+                    Matching matching = (Matching) packet.getContent();
+                    System.out.println("Matching: " + matching.getId());
+                    // Cập nhật lại status
+                    if (this.user.getId() == matching.getUser1().getId()) {
+                        this.user.setStatus(matching.getUser1().getStatus());
+                    } else if (this.user.getId() == matching.getUser2().getId()) {
+                        this.user.setStatus(matching.getUser2().getStatus());
+                    }
+
+                    GameFrame gameFrame = new GameFrame(clientCtr, matching, user);
+                    gameFrame.setVisible(true);
+                    this.setVisible(false);
+                    break;
+                case "deny_invitation":
+                    invitation = (ArrayList<User>) packet.getContent();
+                    showMessage("Người chơi " + invitation.get(1).getName() + " từ chối!");
+                    break;
+                case "recieve_history":
+                    ArrayList<Match> listMatch = (ArrayList<Match>) packet.getContent();
+                    HistoryMatchFrame frameHistoryMatch = new HistoryMatchFrame();
+                    break;
+                case "inviter_busy":
+                    showMessage("Người mời đã bận!");
+                    break;
+                case "update_ok":
+                    User user = (User) packet.getContent();
+                    this.user = user;
+                    this.lbName.setText(user.getName());
+                    this.lbRank.setText("Rank: " + user.getScoreRank());
+                    ImageIcon avatarIcon1 = new ImageIcon(getClass().getResource(user.getAvatarLink()));
+                    this.lbAvatar.setIcon(new ImageIcon(avatarIcon1.getImage().getScaledInstance(lbAvatar.getWidth(), lbAvatar.getHeight(), java.awt.Image.SCALE_SMOOTH)));
+                    break;
+                case "logout_ok":
+                    this.setVisible(false);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
