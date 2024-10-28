@@ -653,6 +653,7 @@ public class ServerControl {
                 String updateScoreQuery = "UPDATE users SET scoreRank = scoreRank + ? WHERE id = ?";
                 PreparedStatement updateStmt = con.prepareStatement(updateScoreQuery);
 
+                // Cập nhật điểm cho người chơi
                 if (scoreUser1 == scoreUser2) {
                     updateStmt.setInt(1, draw);
                     updateStmt.setInt(2, user1_id);
@@ -679,6 +680,14 @@ public class ServerControl {
                     updateStmt.executeUpdate();
                 }
 
+                // Kiểm tra và cập nhật lại scoreRank về 0 nếu nó nhỏ hơn 0
+                String resetScoreQuery = "UPDATE users SET scoreRank = CASE WHEN scoreRank < 0 THEN 0 ELSE scoreRank END WHERE id = ? OR id = ?";
+                PreparedStatement resetStmt = con.prepareStatement(resetScoreQuery);
+                resetStmt.setInt(1, user1_id);
+                resetStmt.setInt(2, user2_id);
+                resetStmt.executeUpdate();
+
+                // Cập nhật trạng thái của người chơi
                 String updateStatusQuery = "UPDATE users SET status = 1 WHERE id = ? OR id = ?";
                 PreparedStatement updateStatusStmt = con.prepareStatement(updateStatusQuery);
                 updateStatusStmt.setInt(1, user1_id);
@@ -688,7 +697,7 @@ public class ServerControl {
         } catch (SQLException e) {
             throw e;
         }
-}
+    }
     
     private void updateMatchScores(int matchid) throws SQLException {
         String selectQuery = "SELECT scoreUser1, scoreUser2 FROM matching WHERE id = ?";
