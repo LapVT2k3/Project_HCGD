@@ -43,7 +43,7 @@ public class LobbyFrame extends javax.swing.JFrame implements PacketListener {
         this.clientCtr.addPacketListener(this);
         this.user = user;
         this.lbName.setText(user.getName());
-        this.lbRank.setText("Rank: " + user.getScoreRank());
+        this.lbRank.setText("Score: " + user.getScoreRank());
         ImageIcon originalIcon = new ImageIcon(getClass().getResource(user.getAvatarLink()));
         Image originalImage = originalIcon.getImage();
 

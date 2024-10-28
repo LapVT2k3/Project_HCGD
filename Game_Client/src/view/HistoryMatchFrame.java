@@ -7,6 +7,8 @@ import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import model.Match;
@@ -48,23 +50,34 @@ public class HistoryMatchFrame extends javax.swing.JFrame implements PacketListe
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         btnClose = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMatchHistory = new javax.swing.JTable();
         lbName = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Lịch sử đấu của người chơi");
-
-        btnClose.setText("Đóng");
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout (3).png"))); // NOI18N
+        btnClose.setContentAreaFilled(false);
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
             }
         });
+        getContentPane().add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
+        jLabel1.setFont(new java.awt.Font("SVN-Batman Forever Alternate", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Lịch sử đấu của người chơi");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1050, 80));
+
+        tblMatchHistory.setBackground(new java.awt.Color(204, 255, 255));
+        tblMatchHistory.setFont(new java.awt.Font("SVN-Comic Sans MS", 0, 24)); // NOI18N
         tblMatchHistory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -91,43 +104,27 @@ public class HistoryMatchFrame extends javax.swing.JFrame implements PacketListe
                 return canEdit [columnIndex];
             }
         });
+        tblMatchHistory.setGridColor(new java.awt.Color(204, 255, 255));
+        tblMatchHistory.setOpaque(false);
+        tblMatchHistory.setRowHeight(35);
         jScrollPane1.setViewportView(tblMatchHistory);
         if (tblMatchHistory.getColumnModel().getColumnCount() > 0) {
             tblMatchHistory.getColumnModel().getColumn(0).setResizable(false);
+            tblMatchHistory.getColumnModel().getColumn(0).setPreferredWidth(111);
             tblMatchHistory.getColumnModel().getColumn(1).setResizable(false);
+            tblMatchHistory.getColumnModel().getColumn(1).setPreferredWidth(111);
             tblMatchHistory.getColumnModel().getColumn(2).setResizable(false);
+            tblMatchHistory.getColumnModel().getColumn(2).setPreferredWidth(111);
             tblMatchHistory.getColumnModel().getColumn(3).setResizable(false);
+            tblMatchHistory.getColumnModel().getColumn(3).setPreferredWidth(151);
         }
+        tblMatchHistory.getTableHeader().setFont(new java.awt.Font("SVN-Comic Sans MS", 1, 24));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnClose)
-                        .addGap(88, 88, 88)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnClose)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 102, 1050, 600));
+        getContentPane().add(lbName, new org.netbeans.lib.awtextra.AbsoluteConstraints(866, 19, 42, 30));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bg.jpg"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 730));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -216,6 +213,7 @@ public class HistoryMatchFrame extends javax.swing.JFrame implements PacketListe
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbName;
     private javax.swing.JTable tblMatchHistory;
@@ -226,6 +224,12 @@ public class HistoryMatchFrame extends javax.swing.JFrame implements PacketListe
         if (null != packet.getHeader()) switch (packet.getHeader()) {
             case "history_ok":
                 ArrayList<Match> listMatch = (ArrayList<Match>) packet.getContent();
+                Collections.sort(listMatch, new Comparator<Match>() {
+                    @Override
+                    public int compare(Match o1, Match o2) {
+                        return o2.getTimeStart().compareTo(o1.getTimeStart());
+                    }
+                });
                 this.listMatch = listMatch;
                 updateTable();
                 break;
