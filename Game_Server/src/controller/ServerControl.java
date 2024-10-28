@@ -360,35 +360,72 @@ public class ServerControl {
     
     // Hàm so sánh câu trả lời của hai người chơi
     private void compareAnswers(int user1_id, int user2_id, int answer1, int answer2, int answerQuestionNow, int matchid) throws SQLException, IOException {
-        if (Math.abs(answerQuestionNow - answer1) > Math.abs(answerQuestionNow - answer2)) {
-            // Người chơi 2 thắng
-            findUser(user1_id).writeObject(new Packet("Lose", answerQuestionNow+""));
-            findUser(user2_id).writeObject(new Packet("Win", answerQuestionNow+""));
+        boolean user1Wins = false;
+        boolean user2Wins = false;
 
-            // Cập nhật điểm của người chơi 2
-            String query = "UPDATE matching SET scoreUser2 = scoreUser2 + 1 WHERE id = " + matchid;
-            Statement pstmt = con.prepareStatement(query);
-            pstmt.executeUpdate(query);
-
-        } else if (Math.abs(answerQuestionNow - answer1) < Math.abs(answerQuestionNow - answer2)) {
-            // Người chơi 1 thắng
-            findUser(user2_id).writeObject(new Packet("Lose", answerQuestionNow+""));
-            findUser(user1_id).writeObject(new Packet("Win", answerQuestionNow+""));
-
-            // Cập nhật điểm của người chơi 1
-            String query = "UPDATE matching SET scoreUser1 = scoreUser1 + 1 WHERE id = " + matchid;
-            Statement pstmt = con.prepareStatement(query);
-            pstmt.executeUpdate(query);
-
-        } else {
+        if (answer1 == answer2) {
             // Hai người chơi hòa
-            findUser(user1_id).writeObject(new Packet("Draw", answerQuestionNow+""));
-            findUser(user2_id).writeObject(new Packet("Draw", answerQuestionNow+""));
+            findUser(user1_id).writeObject(new Packet("Draw", answerQuestionNow + ""));
+            findUser(user2_id).writeObject(new Packet("Draw", answerQuestionNow + ""));
 
             // Cập nhật điểm cho cả hai người chơi
-            String query = "UPDATE matching SET scoreUser1 = scoreUser1 + 0.5, scoreUser2 = scoreUser2 + 0.5 WHERE id = " + matchid;
-            Statement pstmt = con.prepareStatement(query);
-            pstmt.executeUpdate(query);
+            String query = "UPDATE matching SET scoreUser1 = scoreUser1 + 0.5, scoreUser2 = scoreUser2 + 0.5 WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, matchid);
+            pstmt.executeUpdate();
+            return; // Không cần kiểm tra thêm
+        }
+
+        boolean user1LessThanOrEqualToAnswer = answer1 <= answerQuestionNow;
+        boolean user2LessThanOrEqualToAnswer = answer2 <= answerQuestionNow;
+
+        // Cả hai đều nhỏ hơn hoặc bằng
+        if (user1LessThanOrEqualToAnswer && user2LessThanOrEqualToAnswer) {
+            if (Math.abs(answerQuestionNow - answer1) < Math.abs(answerQuestionNow - answer2)) {
+                user1Wins = true;
+            } else {
+                user2Wins = true;
+            }
+        }
+        // Cả hai đều lớn hơn
+        else if (!user1LessThanOrEqualToAnswer && !user2LessThanOrEqualToAnswer) {
+            // Kết quả là hòa
+            findUser(user1_id).writeObject(new Packet("Draw", answerQuestionNow + ""));
+            findUser(user2_id).writeObject(new Packet("Draw", answerQuestionNow + ""));
+
+            // Cập nhật điểm cho cả hai người chơi
+            String query = "UPDATE matching SET scoreUser1 = scoreUser1 + 0.5, scoreUser2 = scoreUser2 + 0.5 WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, matchid);
+            pstmt.executeUpdate();
+            return; // Không cần kiểm tra thêm
+        }
+        // Một người nhỏ hơn hoặc bằng, một người lớn hơn
+        else if (user1LessThanOrEqualToAnswer && !user2LessThanOrEqualToAnswer) {
+            user1Wins = true;
+        } else if (!user1LessThanOrEqualToAnswer && user2LessThanOrEqualToAnswer) {
+            user2Wins = true;
+        }
+
+        // Cập nhật kết quả dựa trên người thắng
+        if (user1Wins) {
+            findUser(user1_id).writeObject(new Packet("Win", answerQuestionNow + ""));
+            findUser(user2_id).writeObject(new Packet("Lose", answerQuestionNow + ""));
+
+            // Cập nhật điểm cho người chơi 1
+            String query = "UPDATE matching SET scoreUser1 = scoreUser1 + 1 WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, matchid);
+            pstmt.executeUpdate();
+        } else if (user2Wins) {
+            findUser(user2_id).writeObject(new Packet("Win", answerQuestionNow + ""));
+            findUser(user1_id).writeObject(new Packet("Lose", answerQuestionNow + ""));
+
+            // Cập nhật điểm cho người chơi 2
+            String query = "UPDATE matching SET scoreUser2 = scoreUser2 + 1 WHERE id = ?";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, matchid);
+            pstmt.executeUpdate();
         }
     }
     
